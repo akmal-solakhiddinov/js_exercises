@@ -15,12 +15,12 @@ describe('Exercise @1', () => {
       expect(isStringEmpty('abc')).to.equal(false);
     });
 
-    it('isStringEmpty(\'\'); => true', () => {
-      expect(isStringEmpty('abc')).to.equal(true);
+    it('isStringEmpty(""); => true', () => {
+      expect(isStringEmpty('')).to.equal(true);
     });
 
-    it('isStringEmpty(\'   \'); => true', () => {
-      expect(isStringEmpty('abc')).to.equal(true);
+    it('isStringEmpty("   "); => true', () => {
+      expect(isStringEmpty('  ')).to.equal(true);
     });
 
     it('isStringEmpty(); => throws error', () => {
@@ -37,7 +37,7 @@ describe('Exercise @1', () => {
 
     it('truncateString(\'Hello world\'); => throws error "Please specify number of characters to extract"', () => {
       expect(() => {
-        truncateString();
+        truncateString('Hello world');
       }).to.throw('Please specify number of characters to extract');
     });
 
@@ -54,7 +54,7 @@ describe('Exercise @1', () => {
     });
 
     it("createHashTag('i love javascript'); => '#iLoveJavascript'", () => {
-      expect(createHashTag('Hello World')).to.equal('#iLoveJavascript');
+      expect(createHashTag('i love javascript')).to.equal('#iLoveJavascript');
     });
 
     it("createHashTag(''); => throws error 'Text should have at least three characters'", () => {
