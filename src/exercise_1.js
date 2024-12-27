@@ -9,7 +9,8 @@
  * isStringEmpty(); => throws error "text must be defined"
  */
 function isStringEmpty(text) {
-  // Your code here
+  if (text === undefined) throw new Error("text must be defined");
+  return text.trim().length === 0;
 }
 
 /**
@@ -23,7 +24,12 @@ function isStringEmpty(text) {
  * truncateString(''); => throws error "text must have at least one character"
  */
 function truncateString(text, numberOfCharacters) {
-  // Your code here
+  if (!text) throw new Error("text must have at least one character");
+    
+  if (numberOfCharacters === undefined)
+    throw new Error("Please specify number of characters to extract");
+  
+  return text.slice(0, numberOfCharacters);
 }
 
 /**
@@ -37,10 +43,20 @@ function truncateString(text, numberOfCharacters) {
  * createHashTag(); => throws error "Text should have at least three characters"
  * createHashTag('   '); => throws error "Text should have at least three characters"
  */
-function createHashTag(text) {
-  // Your code here
-}
 
+function createHashTag(text) {
+  if (!text || text.trim().length < 3) {
+    throw new Error("Text should have at least three characters");
+  }
+  const words = text.trim().toLowerCase().split(/\s+/);
+  return (
+    "#" +
+    words
+      .map((word, index) => (index === 0 ? word : word[0].toUpperCase() + word.slice(1)))
+      .join("")
+  );
+
+}
 /**
  * Write a function to format phone number as '+998 99 777 66 55'
  * @param {Number} phoneNumber 
@@ -53,8 +69,14 @@ function createHashTag(text) {
  * formatPhoneNumber(777665544332211); => throws error "Phone number must be either 9 or 12 characters long"
  * formatPhoneNumber(); => throws error "Phone number must be either 9 or 12 characters long"
  */
+
 function formatPhoneNumber(phoneNumber) {
-  // Your code here
+  const phoneStr = String(phoneNumber);
+  if (phoneStr.length !== 9 && phoneStr.length !== 12) {
+    throw new Error("Phone number must be either 9 or 12 characters long");
+  }
+  const normalized = phoneStr.length === 9 ? `998${phoneStr}` : phoneStr;
+  return `+${normalized.slice(0, 3)} ${normalized.slice(3, 5)} ${normalized.slice(5, 8)} ${normalized.slice(8, 10)} ${normalized.slice(10)}`;
 }
 
 /**
@@ -69,9 +91,23 @@ function formatPhoneNumber(phoneNumber) {
  * 
  */
 function changeTextCase(text, caseName) {
-  // Your code here
-}
-
+  if (!text || !caseName) {
+    throw new Error("Invalid input");
+  }
+  const words = text.toLowerCase().split(/\s+/);
+  switch (caseName) {
+    case "camel":
+      return words
+        .map((word, index) => (index === 0 ? word : word[0].toUpperCase() + word.slice(1)))
+        .join("");
+    case "kebab":
+      return words.join("-");
+    case "snake":
+      return words.join("_");
+    default:
+      throw new Error("Invalid case name");
+  }
+} 
 /**
  * Write a function to replace a given word in the text with the replacement word
  * @param {String} text - Some text
@@ -86,7 +122,11 @@ function changeTextCase(text, caseName) {
  * 'Winnie-the-Puff (also known as Edward Bear, Puff Bear or simply Puff) is a fictional anthropomorphic teddy bear created by English author A. A. Milne and English illustrator E. H. Shepard. Winnie-the-Puff first appeared by name in a children's story commissioned by London's Evening News for Christmas Eve 1925. The character is inspired by a stuffed toy that Milne had bought for his son Christopher Robin in Harrods department store, and a bear they had viewed at London Zoo.'
  */
 function replaceWordInText(text, word, replacement) {
-  // Your code here
+  if (!text || !word || !replacement) {
+    throw new Error("Invalid input");
+  }
+  const regex = new RegExp(`\\b${word}\\b`, "g");
+  return text.replace(regex, replacement);
 }
 
 /**
@@ -99,7 +139,11 @@ function replaceWordInText(text, word, replacement) {
  * extractPriceFromText('There were no apples left in the shop'); => 'No matching price was found'
  */
 function extractPriceFromText(text) {
-  // Your code here
+  if (!text) {
+    throw new Error("Invalid input");
+  }
+  const match = text.match(/\$([0-9]+(?:\.[0-9]+)?)/);
+  return match ? parseFloat(match[1]) : "No matching price was found";
 }
 
 module.exports = {
